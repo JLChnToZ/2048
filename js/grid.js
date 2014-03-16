@@ -73,16 +73,18 @@ Grid.prototype.cellContent = function (cell) {
 // Inserts a tile at its position
 Grid.prototype.insertTile = function (tile) {
   this.cells[tile.x][tile.y] = tile;
-	while(this.cellCount.length <= Math.log(tile.value) / Math.log(2) / 2)
+	var index = Math.floor(Math.log(tile.value) / Math.log(2));
+	while(this.cellCount.length <= index)
 		this.cellCount.push(0);
-	this.cellCount[Math.floor(Math.log(tile.value) / Math.log(2) / 2)]++;
+	this.cellCount[index]++;
 };
 
 Grid.prototype.removeTile = function (tile) {
   this.cells[tile.x][tile.y] = null;
-	while(this.cellCount.length <= Math.log(tile.value) / Math.log(2) / 2)
+	var index = Math.floor(Math.log(tile.value) / Math.log(2));
+	while(this.cellCount.length <= index)
 		this.cellCount.push(0);
-	this.cellCount[Math.floor(Math.log(tile.value) / Math.log(2) / 2)]--;
+	this.cellCount[index]--;
 };
 
 Grid.prototype.withinBounds = function (position) {
