@@ -111,6 +111,7 @@ GameManager.prototype.move = function (direction) {
   var vector     = this.getVector(direction);
   var traversals = this.buildTraversals(vector);
   var moved      = false;
+	var mergeCount = 0;
 
   // Save the current tile positions and remove merger information
   this.prepareTiles();
@@ -138,6 +139,9 @@ GameManager.prototype.move = function (direction) {
 
           // Update the score
           self.score += merged.value;
+					
+					// Count the merging action.
+					mergeCount++;
 
           // The mighty 2048 tile
           if (merged.value === 2048) self.won = true;
@@ -153,7 +157,7 @@ GameManager.prototype.move = function (direction) {
   });
 
   if (moved) {
-    this.addRandomTile();
+		if(mergeCount <= 1) this.addRandomTile();
 
     if (!this.movesAvailable()) {
       this.over = true; // Game over!
