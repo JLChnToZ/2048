@@ -5,6 +5,7 @@ function GameManager(size, InputManager, Actuator, ScoreManager) {
   this.actuator     = new Actuator;
 
   this.startTiles   = 2;
+	this.maxNum		= 0;
 
   this.inputManager.on("move", this.move.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
@@ -41,6 +42,7 @@ GameManager.prototype.setup = function () {
   this.over        = false;
   this.won         = false;
   this.keepPlaying = false;
+	this.maxNum	= 0;
 
   // Add the initial tiles
   this.addStartTiles();
@@ -59,7 +61,16 @@ GameManager.prototype.addStartTiles = function () {
 // Adds a tile in a random position
 GameManager.prototype.addRandomTile = function () {
   if (this.grid.cellsAvailable()) {
-    var value = Math.random() < 0.9 ? 2 : 4;
+		var rand = Math.random(), n = 1, pvalues = [], value = 2;
+		for(var i = this.grid.cellCount.length - 1; i >= 0; i--) {
+			if((this.grid.cellCount[i] % 2 != 0 || Math.pow(2, i + 1) >= this.maxNum / 128))
+				pvalues.push(Math.max(Math.pow(2, i + 1), value));
+		}
+		for(var i = pvalues.length - 1; i >= 0; i--) {
+			n -= Math.pow(10, -i);
+			if(rand > n || i == 0)
+				value = pvalues[i];
+		}
     var tile = new Tile(this.grid.randomAvailableCell(), value);
 
     this.grid.insertTile(tile);
@@ -139,6 +150,7 @@ GameManager.prototype.move = function (direction) {
 
           // Update the score
           self.score += merged.value;
+					self.maxNum = Math.max(self.maxNum, merged.value);
 					
 					// Count the merging action.
 					mergeCount++;

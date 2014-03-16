@@ -2,6 +2,7 @@ function Grid(size) {
   this.size = size;
 
   this.cells = [];
+	this.cellCount = [];
 
   this.build();
 }
@@ -72,10 +73,16 @@ Grid.prototype.cellContent = function (cell) {
 // Inserts a tile at its position
 Grid.prototype.insertTile = function (tile) {
   this.cells[tile.x][tile.y] = tile;
+	while(this.cellCount.length <= Math.log(tile.value) / Math.log(2) / 2)
+		this.cellCount.push(0);
+	this.cellCount[Math.floor(Math.log(tile.value) / Math.log(2) / 2)]++;
 };
 
 Grid.prototype.removeTile = function (tile) {
   this.cells[tile.x][tile.y] = null;
+	while(this.cellCount.length <= Math.log(tile.value) / Math.log(2) / 2)
+		this.cellCount.push(0);
+	this.cellCount[Math.floor(Math.log(tile.value) / Math.log(2) / 2)]--;
 };
 
 Grid.prototype.withinBounds = function (position) {
