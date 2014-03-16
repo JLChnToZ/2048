@@ -63,7 +63,7 @@ GameManager.prototype.addRandomTile = function () {
   if (this.grid.cellsAvailable()) {
 		var rand = Math.random(), n = 0, pvalues = [];
 		for(var i = 1; i < this.grid.cellCount.length; i++) {
-			if(this.grid.cellCount[i] % 2 == 0 || Math.pow(2, i) >= this.maxNum / 16)
+			if(this.grid.cellCount[i] % 2 != 0 || Math.pow(2, i) >= this.maxNum / Math.pow(this.maxNum, 0.7) / 2)
 				pvalues.push(Math.pow(2, i));
 		}
 		var value = pvalues[0];
