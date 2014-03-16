@@ -67,7 +67,20 @@ HTMLActuator.prototype.addTile = function (tile) {
   this.applyClasses(wrapper, classes);
 
   inner.classList.add("tile-inner");
-  inner.textContent = tile.value;
+  inner.textContent = (function(value) {
+		switch(value) {
+			case 16: return '拾陸';
+			case 32: return '叁拾貳';
+			case 64: return '陸拾肆';
+			default:
+				var ret = '';
+				var num_text = '零壹貳叁肆伍陸柒捌玖';
+				var str = value.toString();
+				for(var i = 0; i < str.length; i++)
+					ret += num_text[parseInt(str[i])];
+				return ret;
+		}
+	})(tile.value);
 
   if (tile.previousPosition) {
     // Make sure that the tile gets rendered in the previous position first
@@ -131,7 +144,7 @@ HTMLActuator.prototype.updateBestScore = function (bestScore) {
 
 HTMLActuator.prototype.message = function (won) {
   var type    = won ? "game-won" : "game-over";
-  var message = won ? "You win!" : "Game over!";
+  var message = won ? "你贏了！" : "遊戲結束";
 
   if (typeof ga !== "undefined") {
     ga("send", "event", "game", "end", type, this.score);
