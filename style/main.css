@@ -323,7 +323,7 @@ hr {
     border-radius: 6px;
     background: #000000;
     text-align: center;
-    font-weight: bold;
+	  font-family: "Clear Sans", "Helvetica Neue", Arial, BiauKai, DFKai-SB, KaiTi_GB2312, sans-serif;
     z-index: 10;
     font-size: 55px; }
   .tile.tile-2 .tile-inner {
